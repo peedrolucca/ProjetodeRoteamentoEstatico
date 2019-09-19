@@ -1,0 +1,37 @@
+enable
+configure terminal
+Hostname RT-03
+banner motd " APENAS CONTINUE SE FOR AUTORIZADO "
+enable secret SenhadaEnable
+line console 0
+password SenhadaConsole 
+login
+exit
+Username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+line vty 0 15
+transport input ssh
+exec-timeout 5
+login local
+exit
+service password-encryption
+interface gigabitethernet 0/0
+ip address 192.168.0.1 255.255.255.128
+description REDE 3.LOCAL
+no shutdown
+exit
+login block-for 180 attempts 3 within 60
+security passwords min-length 8
+interface serial 0/0/0
+ip route 172.16.42.0 255.255.254.0 200.200.100.10
+interface serial 0/0/0
+no shutdown
+interface serial 0/0/1
+ip route 192.168.1.0 255.255.255.224 200.200.100.5 
+interface serial 0/0/1
+no shutdown
+ip route 192.168.1.0 255.255.255.224 200.200.100.5 
+ip route 172.16.42.0 255.255.254.0 200.200.100.10 
+ip route 200.200.100.0 255.255.255.252 200.200.100.5 
+ip route 200.200.100.12 255.255.255.252 200.200.100.10 
+do wr
