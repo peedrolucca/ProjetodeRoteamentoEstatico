@@ -1,0 +1,24 @@
+enable
+configure terminal
+Hostname SW-04
+banner motd " APENAS CONTINUE SE FOR AUTORIZADO "
+enable secret SenhadaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+Username administrador privilege 15 secret SenhaAdimin
+username estagiario privilege 1 secret SenhaEst
+line vty 0 15
+transport input ssh
+exec-timeout 5
+login local
+exit
+service password-encryption
+interface vlan 1
+ip address 172.16.43.254 255.255.254.0
+description SWITCH DA REDE 4
+no shutdown 
+exit
+ip default-gateway 172.16.42.1
+do wr
